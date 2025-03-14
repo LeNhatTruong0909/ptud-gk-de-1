@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}Quản lý người dùng{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Quản lý người dùng</h1>
+    <a href="{{ url_for('admin_dashboard') }}" class="back-button">← Quay lại Dashboard</a>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    {% if users %}
+    <div class="table-responsive">
+        <table class="users-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên người dùng</th>
+                    <th>Email</th>
+                    <th>Vai trò</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        {% if user.is_admin %}
+                            <span class="badge admin">Admin</span>
+                        {% else %}
+                            <span class="badge role-{{ user.role }}">
+                                <i class="fas {% if user.role == 'viewer' %}fa-eye{% elif user.role == 'collaborator' %}fa-edit{% elif user.role == 'editor' %}fa-user-edit{% endif %}"></i>
+                                {{ user.role|capitalize }}
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td>{% if user.is_blocked %}<span class="badge blocked">Đã khóa</span>{% else %}<span class="badge active">Hoạt động</span>{% endif %}</td>
+                    <td class="action-buttons">
+                        {% if not user.is_admin or current_user.id != user.id %}
+                            {% if user.is_blocked %}
+                                <a href="{{ url_for('admin_unblock_user', user_id=user.id) }}" class="btn btn-success">Mở khóa</a>
+                            {% else %}
+                                <a href="{{ url_for('admin_block_user', user_id=user.id) }}" class="btn btn-danger">Khóa</a>
+                            {% endif %}
+                            
+                            {% if not user.is_admin %}
+                                <button class="btn btn-primary role-select-btn" data-toggle="modal" data-target="#roleModal{{ user.id }}">
+                                    <i class="fas fa-user-tag"></i> Đổi quyền
+                                </button>
+                
+                                <!-- Modal cho việc đổi role -->
+                                <div class="modal fade" id="roleModal{{ user.id }}" tabindex="-1" aria-labelledby="roleModalLabel{{ user.id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="roleModalLabel{{ user.id }}">Đổi quyền cho {{ user.username }}</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="role-options">
+                                                    <div class="role-option {% if user.role == 'viewer' %}selected{% endif %}">
+                                                        <a href="{{ url_for('admin_change_role', user_id=user.id, role='viewer') }}" class="role-link" data-role="viewer">
+                                                            <div class="role-icon viewer-icon">
+                                                                <i class="fas fa-eye"></i>
+                                                            </div>
+                                                            <div class="role-info">
+                                                                <h5>Viewer</h5>
+                                                                <p>Chỉ có thể xem các bài viết</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    
+                                                    <div class="role-option {% if user.role == 'collaborator' %}selected{% endif %}">
+                                                        <a href="{{ url_for('admin_change_role', user_id=user.id, role='collaborator') }}" class="role-link" data-role="collaborator">
+                                                            <div class="role-icon collaborator-icon">
+                                                                <i class="fas fa-edit"></i>
+                                                            </div>
+                                                            <div class="role-info">
+                                                                <h5>Collaborator</h5>
+                                                                <p>Có thể xem và chỉnh sửa bài viết</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                    
+                                                    <div class="role-option {% if user.role == 'editor' %}selected{% endif %}">
+                                                        <a href="{{ url_for('admin_change_role', user_id=user.id, role='editor') }}" class="role-link" data-role="editor">
+                                                            <div class="role-icon editor-icon">
+                                                                <i class="fas fa-user-edit"></i>
+                                                            </div>
+                                                            <div class="role-info">
+                                                                <h5>Editor</h5>
+                                                                <p>Có thể xem, chỉnh sửa và xóa bài viết</p>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            
+                            <a href="{{ url_for('admin_reset_password', user_id=user.id) }}" class="btn btn-warning">Đặt lại mật khẩu</a>
+                        {% else %}
+                            <span class="disabled-text">Không thể thay đổi</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="no-data">Không có người dùng nào.</p>
+    {% endif %}
+</div>
+{% endblock %}

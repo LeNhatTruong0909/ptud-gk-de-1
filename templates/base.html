@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Blog Flask{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Thêm CSS Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="site-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Blog Flask</h2>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <div class="sidebar-content">
+                <nav class="sidebar-nav">
+                    <ul>
+                        <!-- 1. Main Navigation Section -->
+                        <li class="nav-section-title">Điều hướng chính</li>
+                        <li><a href="{{ url_for('index') }}"><i class="fas fa-home"></i> Trang chủ</a></li>
+                        
+                        {% if current_user.is_authenticated %}
+                            <!-- 2. Content Management Section -->
+                            <li class="nav-section-title">Quản lý nội dung</li>
+                            <li><a href="{{ url_for('my_posts') }}"><i class="fas fa-newspaper"></i> Bài viết của tôi</a></li>
+                            <li><a href="{{ url_for('new_post') }}"><i class="fas fa-plus-circle"></i> Tạo bài viết mới</a></li>
+                            
+                            <!-- 3. Admin Section (if admin) -->
+                            {% if current_user.is_admin %}
+                                <li class="nav-section-title">Quản trị viên</li>
+                                <li><a href="{{ url_for('admin_dashboard') }}"><i class="fas fa-tachometer-alt"></i> Bảng điều khiển</a></li>
+                                <li><a href="{{ url_for('admin_users') }}"><i class="fas fa-users"></i> Quản lý người dùng</a></li>
+                            {% endif %}
+                            
+                            <!-- 4. User Account Section -->
+                            <li class="nav-section-title">Tài khoản</li>
+                            <li><a href="{{ url_for('change_password') }}"><i class="fas fa-key"></i> Đổi mật khẩu</a></li>
+                            <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
+                        {% else %}
+                            <!-- 5. Authentication Section (if not logged in) -->
+                            <li class="nav-section-title">Tài khoản</li>
+                            <li><a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
+                            <li><a href="{{ url_for('register') }}"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                
+                <div class="sidebar-footer">
+                    <p>&copy; {{ current_year }} Blog Flask</p>
+                    {% if current_user.is_authenticated %}
+                    <div class="user-info">
+                        <i class="fas fa-user-circle"></i> {{ current_user.username }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="messages-container">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">
+                                {{ message }}
+                                <button class="close-btn">&times;</button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+            
+            <div class="content">
+                {% block content %}{% endblock %}
+            </div>
+            
+            <footer>
+                <p>&copy; {{ current_year }} Blog Flask | Được phát triển bởi Lê Nhật Trường và Nguyễn Văn Tùng</p>
+            </footer>
+        </div>
+    </div>
+    
+    <!-- Thêm jQuery và Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+    
+    <!-- Script chính của ứng dụng -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+    <script>
+        // Xử lý đóng thông báo
+        document.querySelectorAll('.close-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                this.parentElement.style.display = 'none';
+            });
+        });
+        
+        // Toggle sidebar trên thiết bị di động
+        document.getElementById('sidebar-toggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+        
+        // Xử lý hiệu ứng cho modal đổi role
+        $(document).ready(function() {
+            // Hiệu ứng khi hover qua các option
+            $('.role-option').hover(
+                function() {
+                    $(this).addClass('hover');
+                },
+                function() {
+                    $(this).removeClass('hover');
+                }
+            );
+            
+            // Xác nhận trước khi đổi role
+            $('.role-link').click(function(e) {
+                if (!confirm('Bạn có chắc chắn muốn thay đổi quyền của người dùng này?')) {
+                    e.preventDefault();
+                }
+            });
+            
+            // Hiệu ứng khi chọn role
+            $('.role-option').click(function() {
+                $('.role-option').removeClass('selected');
+                $(this).addClass('selected');
+            });
+        });
+    </script>
+</body>
+</html>
