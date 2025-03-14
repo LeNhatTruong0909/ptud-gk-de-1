@@ -33,7 +33,7 @@ Flask Blog là một ứng dụng blog hoàn chỉnh được xây dựng bằng
 
 1. Clone the repository:
    ```
-   git clone https://github.com/LeNhatTruong0909/flask-tiny-app.git
+   git clone https://github.com/LeNhatTruong0909/ptud-gk-de-1.git
    cd ptud-gk-de-1
    ```
 2. Install the required dependencies:
@@ -52,7 +52,7 @@ Flask Blog là một ứng dụng blog hoàn chỉnh được xây dựng bằng
 
 1. Clone repository:
    ```
-   git clone https://github.com/LeNhatTruong0909/flask-tiny-app.git
+   git clone https://github.com/LeNhatTruong0909/ptud-gk-de-1.git
    ```
 2. Chạy file setup.bat để cài đặt tự động:
 - Chạy lệnh sau trong terminal (Command Prompt):
