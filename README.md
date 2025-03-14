@@ -46,6 +46,24 @@ Flask Blog là một ứng dụng blog hoàn chỉnh được xây dựng bằng
 
 4. Open your web browser and go to `http://127.0.0.1:5000` to access the blog.
 
+### Phương pháp 2: Sử dụng setup.bat (Khuyến nghị)
+
+1. Clone repository:
+   ```
+   git clone https://github.com/LeNhatTruong0909/flask-tiny-app.git
+   ```
+2. Chạy file setup.bat để cài đặt tự động:
+
+3. Sau khi cài đặt hoàn tất, chạy ứng dụng:
+   ```
+   venv\Scripts\activate 
+   
+   python app.py
+   ```
+4. Truy cập ứng dụng tại `http://127.0.0.1:5000`
+
+> **Lưu ý**: Repository này đã bao gồm sẵn database với dữ liệu mẫu, giúp bạn có thể bắt đầu sử dụng ngay mà không cần cấu hình thêm.
+
 ## Tài khoản mặc định
 
 - **Admin:**
