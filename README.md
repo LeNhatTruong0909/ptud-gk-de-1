@@ -20,10 +20,12 @@ Flask Blog là một ứng dụng blog hoàn chỉnh được xây dựng bằng
 
 2. **Quản lý bài viết**
    - Tạo, đọc, cập nhật, xóa bài viết
+   - Bài viết có thể hiển thị hình ảnh
    - Hỗ trợ xóa hàng loạt bài viết
    - Phân trang hiển thị bài viết (5 bài/trang)
 
 3. **Tương tác**
+   - Có Layout: Sidebar (Có Thanh Điều Hướng)
    - Hệ thống bình luận trên bài viết
    - Giao diện thân thiện người dùng
 
@@ -86,7 +88,7 @@ Flask Blog là một ứng dụng blog hoàn chỉnh được xây dựng bằng
 | **Admin**      | - Là người trao quyền (Viewer/Collaborator/Editor) cho user  |
 
 ## Link triển khai
-Ứng dụng đã được triển khai tại: https://github.com/LeNhatTruong0909/flask-tiny-app.git
+Ứng dụng đã được triển khai tại: https://github.com/LeNhatTruong0909/ptud-gk-de-1.git
 
 ## Sử dụng Docker
 
