@@ -53,6 +53,12 @@ Flask Blog là một ứng dụng blog hoàn chỉnh được xây dựng bằng
    git clone https://github.com/LeNhatTruong0909/flask-tiny-app.git
    ```
 2. Chạy file setup.bat để cài đặt tự động:
+- Chạy lệnh sau trong terminal (Command Prompt):
+   ```
+   cd flask-auth-website
+   setup.bat
+   ```
+## hoặc Click vào file setup.bat để chạy trực tiếp
 
 3. Sau khi cài đặt hoàn tất, chạy ứng dụng:
    ```
@@ -69,6 +75,15 @@ Flask Blog là một ứng dụng blog hoàn chỉnh được xây dựng bằng
 - **Admin:**
   - Username: admin
   - Password: admin123
+
+## Hệ thống phân quyền
+| Quyền           | Mô tả |
+|----------------|------------------------------------------|
+| **Viewer**     | Chỉ có quyền xem bài viết và bình luận |
+| **Collaborator** | Có thể tạo và chỉnh sửa bài viết của mình |
+| **Editor**     | Có thể tạo, chỉnh sửa và xóa bài viết của mình |
+| **Admin**      | Có mọi quyền trên hệ thống  |
+| **Admin**      | - Là người trao quyền (Viewer/Collaborator/Editor) cho user  |
 
 ## Link triển khai
 Ứng dụng đã được triển khai tại: https://github.com/LeNhatTruong0909/flask-tiny-app.git
