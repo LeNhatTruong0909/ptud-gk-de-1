@@ -57,14 +57,14 @@ Flask Blog là một ứng dụng blog hoàn chỉnh được xây dựng bằng
 2. Chạy file setup.bat để cài đặt tự động:
 - Chạy lệnh sau trong terminal (Command Prompt):
    ```
-   cd flask-auth-website
+   cd flask-tiny-app
    setup.bat
    ```
 ## hoặc Click vào file setup.bat để chạy trực tiếp
 
 3. Sau khi cài đặt hoàn tất, chạy ứng dụng:
    ```
-   venv\Scripts\activate 
+   venv\Scripts\activate
    
    python app.py
    ```
